@@ -39,7 +39,29 @@ public class CameraView: UIView {
         let outputSettings = [AVVideoCodecKey: AVVideoCodecJPEG]
 
         do {
-            input = try AVCaptureDeviceInput(device: device)
+            if let device2 = device {
+                input = try AVCaptureDeviceInput(device: device2)
+            } else {
+                if currentPosition == AVCaptureDevice.Position.back {
+                    currentPosition = AVCaptureDevice.Position.front
+                    device = cameraWithPosition(position: currentPosition)
+                    if let device3 = device {
+                        input = try AVCaptureDeviceInput(device: device3)
+                    } else {
+                        input = nil
+                        return
+                    }
+                } else {
+                    currentPosition = AVCaptureDevice.Position.back
+                    device = cameraWithPosition(position: currentPosition)
+                    if let device3 = device {
+                        input = try AVCaptureDeviceInput(device: device3)
+                    } else {
+                        input = nil
+                        return
+                    }
+                }
+            }
         } catch let error as NSError {
             input = nil
             print("Error: \(error.localizedDescription)")
@@ -259,9 +281,21 @@ public class CameraView: UIView {
         if currentInput.device.position == AVCaptureDevice.Position.back {
             currentPosition = AVCaptureDevice.Position.front
             device = cameraWithPosition(position: currentPosition)
+            if device == nil {
+                currentPosition = AVCaptureDevice.Position.back
+                device = cameraWithPosition(position: currentPosition)
+            }
         } else {
             currentPosition = AVCaptureDevice.Position.back
             device = cameraWithPosition(position: currentPosition)
+            if device == nil {
+                currentPosition = AVCaptureDevice.Position.front
+                device = cameraWithPosition(position: currentPosition)
+            }
+        }
+        
+        if device == nil {
+            return
         }
         
         guard let newInput = try? AVCaptureDeviceInput(device: device) else {
