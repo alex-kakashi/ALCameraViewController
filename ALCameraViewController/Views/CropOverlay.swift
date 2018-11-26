@@ -142,8 +142,8 @@ internal class CropOverlay: UIView {
         
 		cornerButtons = [createButton(), createButton(), createButton(), createButton()]
 		
-		let dragGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(moveCropOverlay))
-		addGestureRecognizer(dragGestureRecognizer)
+//        let dragGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(moveCropOverlay))
+//        addGestureRecognizer(dragGestureRecognizer)
     }
     
     func createLine() -> UIView {
@@ -157,8 +157,8 @@ internal class CropOverlay: UIView {
 		let button = UIButton()
 		button.backgroundColor = UIColor.clear
 		
-		let dragGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(moveCropOverlay))
-		button.addGestureRecognizer(dragGestureRecognizer)
+//        let dragGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(moveCropOverlay))
+//        button.addGestureRecognizer(dragGestureRecognizer)
 
 		addSubview(button)
 		return button
